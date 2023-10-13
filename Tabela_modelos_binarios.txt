@@ -1,0 +1,18 @@
+
+Regression
+=========================================================
+                        Probit               Logit       
+age                     -0.0029             -0.0055      
+                       (0.0020)            (0.0034)      
+ln_wage                0.7383***           1.2492***     
+                       (0.0302)            (0.0524)      
+collgrad                -0.0017             -0.0025      
+                       (0.0323)            (0.0545)      
+N                       13,452              13,452       
+Log Likelihood        -6,866.5360         -6,873.1680    
+Akaike Inf. Crit.     13,741.0700         13,754.3400    
+=========================================================
+Notes:            ***Significant at the 1 percent level. 
+                  **Significant at the 5 percent level.  
+                  *Significant at the 10 percent level.  
+                  Standard errors in parentheses.        
