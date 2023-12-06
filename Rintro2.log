@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.10.9)  13 OCT 2023 10:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 23.1) (preloaded format=pdflatex 2023.10.9)  5 DEC 2023 21:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -471,7 +471,7 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__pdf_internal_box=\box55
 ) (Rintro2.aux
 
-LaTeX Warning: Label `regressions' multiply defined.
+LaTeX Warning: Label `' multiply defined.
 
 )
 \openout1 = `Rintro2.aux'.
@@ -626,37 +626,52 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 152.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 198.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 198.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 198.
 [1
 
 {C:/Users/Joana Cima/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-258.
+225.
 (C:\Users\Joana Cima\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [2] [3] [4]
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 235.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 235.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 235.
+[2] [3]
+<Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf, id=64, 469.755pt x 325.215p
+t>
+File: Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+
+<use Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf  use
+d on input line 352.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (99.12318pt too wide) in paragraph at lines 352--353
+ []\T1/lmr/bx/n/10 (-20) Graphical anal-y-sis[] [] 
+ []
+
+[4 <./Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf>] [5]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-05.
+65.
 (C:\Users\Joana Cima\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [5] [6] [7] (Rintro2.aux)
+) [6] [7] [8] [9] (Rintro2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14049 strings out of 476374
- 227090 string characters out of 5786458
- 1864340 words of memory out of 5000000
- 34017 multiletter control sequences out of 15000+600000
- 578783 words of font info for 129 fonts, out of 8000000 for 9000
+ 14035 strings out of 476374
+ 226940 string characters out of 5786458
+ 1868340 words of memory out of 5000000
+ 34014 multiletter control sequences out of 15000+600000
+ 574056 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 63i,10n,67p,1006b,621s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 63i,10n,67p,1006b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.e
 nc}{C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1
 .enc}{C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-m
@@ -665,22 +680,20 @@ athsy.enc}{C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm
 m/lm-mathit.enc}<C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/lm/lmbx10.pfb><C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/lm/lmbx12.pfb><C:/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/lm/lmbxi10.pfb><C:/Users/Joana Cima/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/Joana Cima/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Joana Cima/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Joana Cima/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Joana Cima/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Joana Cima/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Joana Cima/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Joana C
-ima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/Joa
-na Cima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/User
-s/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:
-/Users/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.p
-fb>
-Output written on Rintro2.pdf (7 pages, 346864 bytes).
+nts/type1/public/lm/lmmi10.pfb><C:/Users/Joana Cima/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Joana Cima/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Joana Cima/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Joana Cima/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Joana Cima/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Joana Cima/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Joana Cima/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/Joana Cim
+a/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/Joan
+a Cima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users
+/Joana Cima/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
+Output written on Rintro2.pdf (9 pages, 1091862 bytes).
 PDF statistics:
- 321 PDF objects out of 1000 (max. 8388607)
- 90 named destinations out of 1000 (max. 500000)
- 37121 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 312 PDF objects out of 1000 (max. 8388607)
+ 86 named destinations out of 1000 (max. 500000)
+ 35046 words of extra memory for PDF output out of 35830 (max. 10000000)
 

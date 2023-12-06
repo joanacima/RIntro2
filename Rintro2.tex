@@ -117,7 +117,7 @@
 \makeatother
 \subtitle{Jump into a notebook}
 \author{Joana Cima}
-\date{13 outubro 2023}
+\date{05 dezembro 2023}
 
 \begin{document}
 \maketitle
@@ -181,10 +181,47 @@ Selecting appropriate variables for our model is critical to derive
 accurate and meaningful results.
 
 \begin{verbatim}
-##           Overall
-## age      11.92846
-## collgrad 41.15039
-## union    25.20145
+##            Overall
+## age      12.564946
+## collgrad 40.420145
+## union    24.539365
+## hours     6.894666
+\end{verbatim}
+
+\begin{verbatim}
+## Start:  AIC=-23546.23
+## ln_wage ~ age + collgrad + union + hours
+## 
+##            Df Sum of Sq    RSS    AIC
+## <none>                  2335.0 -23546
+## - hours     1     8.254 2343.2 -23501
+## - age       1    27.414 2362.4 -23391
+## - union     1   104.564 2439.5 -22959
+## - collgrad  1   283.694 2618.7 -22006
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = ln_wage ~ age + collgrad + union + hours, data = db_ols)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.2458 -0.2650 -0.0113  0.2544  3.4018 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 1.2878849  0.0226062  56.971  < 2e-16 ***
+## age         0.0071387  0.0005681  12.565  < 2e-16 ***
+## collgrad    0.3774243  0.0093375  40.420  < 2e-16 ***
+## union       0.2115787  0.0086220  24.539  < 2e-16 ***
+## hours       0.0024992  0.0003625   6.895 5.64e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4167 on 13447 degrees of freedom
+## Multiple R-squared:  0.178,  Adjusted R-squared:  0.1777 
+## F-statistic: 727.9 on 4 and 13447 DF,  p-value: < 2.2e-16
 \end{verbatim}
 
 \hypertarget{our-regression-table}{%
@@ -201,12 +238,14 @@ Exemplo de texto.
  & Model (1) & Model (2) \\ 
  age & 0.010$^{***}$ & 0.007$^{***}$ \\ 
   & (0.001) & (0.001) \\ 
-  collgrad &  & 0.383$^{***}$ \\ 
+  collgrad &  & 0.377$^{***}$ \\ 
   &  & (0.009) \\ 
-  union &  & 0.217$^{***}$ \\ 
+  union &  & 0.212$^{***}$ \\ 
   &  & (0.009) \\ 
+  hours &  & 0.002$^{***}$ \\ 
+  &  & (0.0004) \\ 
  \textit{N} & 13,452 & 13,452 \\ 
-R$^{2}$ & 0.021 & 0.175 \\ 
+R$^{2}$ & 0.021 & 0.178 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Notes:} & \multicolumn{2}{l}{$^{***}$Significant at the 1 percent level.} \\ 
@@ -245,30 +284,14 @@ our regression model.
 ## Linear hypothesis test
 ## 
 ## Hypothesis:
-## age = 0
-## 
-## Model 1: restricted model
-## Model 2: ln_wage ~ age + collgrad + union
-## 
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1  13449 2368.0                                  
-## 2  13448 2343.2  1    24.793 142.29 < 2.2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-\end{verbatim}
-
-\begin{verbatim}
-## Linear hypothesis test
-## 
-## Hypothesis:
 ## - collgrad  + union = 0
 ## 
 ## Model 1: restricted model
-## Model 2: ln_wage ~ age + collgrad + union
+## Model 2: ln_wage ~ age + collgrad + union + hours
 ## 
 ##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1  13449 2371.0                                  
-## 2  13448 2343.2  1    27.743 159.22 < 2.2e-16 ***
+## 1  13448 2362.5                                  
+## 2  13447 2335.0  1    27.529 158.54 < 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -290,11 +313,11 @@ complexity.
 \end{verbatim}
 
 \begin{verbatim}
-## [1] 14676.36
+## [1] 14630.89
 \end{verbatim}
 
 \begin{verbatim}
-## [1] 14713.9
+## [1] 14675.94
 \end{verbatim}
 
 \hypertarget{colinearity-vif}{%
@@ -305,8 +328,8 @@ multicollinearity in a regression, with values greater than 10
 suggesting high correlation between predictors (Wooldrige; Verbeek).
 
 \begin{verbatim}
-##      age collgrad    union 
-## 1.018819 1.025643 1.007647
+##      age collgrad    union    hours 
+## 1.028617 1.034259 1.015531 1.024762
 \end{verbatim}
 
 \hypertarget{heteroskedasticity}{%
@@ -323,6 +346,11 @@ unreliable standard errors. To rigorously assess the presence of
 homoscedasticity, researchers often employ diagnostic tests, such as the
 Breusch-Pagan test.
 
+\hypertarget{graphical-analysis}{%
+\paragraph{Graphical analysis}\label{graphical-analysis}}
+
+\includegraphics{Rintro2_files/figure-latex/unnamed-chunk-11-1.pdf}
+
 \hypertarget{breusch-pagan-test}{%
 \paragraph{Breusch-Pagan test}\label{breusch-pagan-test}}
 
@@ -331,7 +359,7 @@ Breusch-Pagan test.
 ##  studentized Breusch-Pagan test
 ## 
 ## data:  ols2
-## BP = 220.76, df = 3, p-value < 2.2e-16
+## BP = 284.11, df = 4, p-value < 2.2e-16
 \end{verbatim}
 
 The results from the Breusch-Pagan test for the \texttt{ols2} model
@@ -343,47 +371,62 @@ hypothesis of homoscedasticity.
 \hypertarget{robust-estimation}{%
 \subsubsection{5.1.7. Robust estimation}\label{robust-estimation}}
 
-t test of coefficients:
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{robust\_ols2 }\OtherTok{\textless{}{-}} \FunctionTok{coeftest}\NormalTok{(ols2, }\AttributeTok{vcov. =} \FunctionTok{vcovHC}\NormalTok{(ols2, }\AttributeTok{type=}\StringTok{"HC1"}\NormalTok{))}
+\FunctionTok{print}\NormalTok{(robust\_ols2)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-          Estimate Std. Error t value  Pr(>|t|)    
+## 
+## t test of coefficients:
+## 
+##               Estimate Std. Error t value  Pr(>|t|)    
+## (Intercept) 1.28788491 0.02783552 46.2677 < 2.2e-16 ***
+## age         0.00713867 0.00058433 12.2168 < 2.2e-16 ***
+## collgrad    0.37742427 0.00956496 39.4590 < 2.2e-16 ***
+## union       0.21157873 0.00842208 25.1219 < 2.2e-16 ***
+## hours       0.00249920 0.00053996  4.6285 3.718e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
 
-(Intercept) 1.38759270 0.01699578 81.643 \textless{} 2.2e-16
-\textbf{\emph{ age 0.00675636 0.00057968 11.655 \textless{} 2.2e-16 }}
-collgrad 0.38330049 0.00950024 40.346 \textless{} 2.2e-16 \textbf{\emph{
-union 0.21681639 0.00828751 26.162 \textless{} 2.2e-16 }} --- Signif.
-codes: 0 `\emph{\textbf{' 0.001 '}' 0.01 '}' 0.05 `.' 0.1 ' ' 1
-
-\% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy
-Institute. E-mail: marek.hlavac at gmail.com \% Date and time: sex, out
-13, 2023 - 10:38:15
-
 \begin{table}[!htbp] \centering 
-  \caption{} 
+  \caption{Comparison of OLS and Robust Regression Models} 
   \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
-\\[-1.8ex] &   \\ 
+\\[-1.8ex] & ln\_wage &   \\ 
+ & OLS & Robust OLS \\ 
+\\[-1.8ex] & (1) & (2)\\ 
 \hline \\[-1.8ex] 
- age & 0.0068$^{***}$ \\ 
-  & (0.0006) \\ 
-  & \\ 
- collgrad & 0.3833$^{***}$ \\ 
-  & (0.0095) \\ 
-  & \\ 
- union & 0.2168$^{***}$ \\ 
-  & (0.0083) \\ 
-  & \\ 
- Constant & 1.3876$^{***}$ \\ 
-  & (0.0170) \\ 
-  & \\ 
+ Constant & 1.288$^{***}$ & 1.288$^{***}$ \\ 
+  & (0.023) & (0.028) \\ 
+  & & \\ 
+ age & 0.007$^{***}$ & 0.007$^{***}$ \\ 
+  & (0.001) & (0.001) \\ 
+  & & \\ 
+ collgrad & 0.377$^{***}$ & 0.377$^{***}$ \\ 
+  & (0.009) & (0.010) \\ 
+  & & \\ 
+ union & 0.212$^{***}$ & 0.212$^{***}$ \\ 
+  & (0.009) & (0.008) \\ 
+  & & \\ 
+ hours & 0.002$^{***}$ & 0.002$^{***}$ \\ 
+  & (0.0004) & (0.001) \\ 
+  & & \\ 
+\textit{N} & 13,452 &  \\ 
+R$^{2}$ & 0.178 &  \\ 
+Adjusted R$^{2}$ & 0.178 &  \\ 
+Residual Std. Error & 0.417 (df = 13447) &  \\ 
+F Statistic & 727.942$^{***}$ (df = 4; 13447) &  \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Notes:} & \multicolumn{1}{l}{$^{***}$Significant at the 1 percent level.} \\ 
- & \multicolumn{1}{l}{$^{**}$Significant at the 5 percent level.} \\ 
- & \multicolumn{1}{l}{$^{*}$Significant at the 10 percent level.} \\ 
+\textit{Notes:} & \multicolumn{2}{r}{$^{***}$Significant at the 1 percent level.} \\ 
+ & \multicolumn{2}{r}{$^{**}$Significant at the 5 percent level.} \\ 
+ & \multicolumn{2}{r}{$^{*}$Significant at the 10 percent level.} \\ 
 \end{tabular} 
 \end{table}
 
@@ -392,15 +435,14 @@ Institute. E-mail: marek.hlavac at gmail.com \% Date and time: sex, out
 (Model 2)}\label{coefficient-interpretation-with-a-full-model-model-2}}
 
 Given that our dependent variable is the natural logarithm of the
-salary, the coefficients in this regression model represent percentage
-changes in the salary for a one-unit change in the independent
-variables.For every additional year in age, the salary is expected to
-increase by approximately 0.6779236\%, holding all other factors
-constant. Being a college graduate is associated with an estimated
-increase of about 46.7118818\% in the salary, compared to not being a
-college graduate. Being a member of a union is associated with an
-approximate 24.2116016\% increase in salary, holding everything else
-constant. This effect is highly significant (p-value \textless{} 2e-16).
+salary, the coefficients should be interpreted accordingly. For every
+additional year in age, the salary is expected to increase by
+approximately 0.7024557\%, holding all other factors constant. Being a
+college graduate is associated with an estimated increase of about
+45.7904309\% in the salary, compared to not being a college graduate.
+Being a member of a union is associated with an approximate 23.6147885\%
+increase in salary, holding everything else constant. All variables are
+significant at the 1\% level.
 
 \hypertarget{binary-choice-models}{%
 \subsection{5.2. Binary choice models}\label{binary-choice-models}}
@@ -423,44 +465,60 @@ but don't quantify the magnitude.
 ## 
 ## Coefficients:
 ##              Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -1.963478   0.073502 -26.713   <2e-16 ***
-## age         -0.002860   0.001959  -1.459    0.144    
-## ln_wage      0.738308   0.030169  24.472   <2e-16 ***
-## collgrad    -0.001693   0.032350  -0.052    0.958    
+## (Intercept) -2.467689   0.091163 -27.069   <2e-16 ***
+## age         -0.001280   0.001970  -0.650    0.516    
+## ln_wage      0.734203   0.030386  24.162   <2e-16 ***
+## collgrad    -0.032086   0.032593  -0.984    0.325    
+## hours        0.012740   0.001326   9.608   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
 ##     Null deviance: 14463  on 13451  degrees of freedom
-## Residual deviance: 13733  on 13448  degrees of freedom
-## AIC: 13741
+## Residual deviance: 13640  on 13447  degrees of freedom
+## AIC: 13650
 ## 
 ## Number of Fisher Scoring iterations: 4
 \end{verbatim}
 
-\begin{table}[!ht] \centering 
-  \caption{Regression} 
-  \label{regressions} 
+\% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy
+Institute. E-mail: marek.hlavac at gmail.com \% Date and time: ter, dez
+05, 2023 - 21:45:30
+
+\begin{table}[!htbp] \centering 
+  \caption{Comparative Table of Logit and Probit Models} 
+  \label{} 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
- &  Probit & Logit \\ 
- age & $-$0.0029 & $-$0.0055 \\ 
-  & (0.0020) & (0.0034) \\ 
-  ln\_wage & 0.7383$^{***}$ & 1.2492$^{***}$ \\ 
-  & (0.0302) & (0.0524) \\ 
-  collgrad & $-$0.0017 & $-$0.0025 \\ 
-  & (0.0323) & (0.0545) \\ 
- \textit{N} & 13,452 & 13,452 \\ 
-Log Likelihood & $-$6,866.5360 & $-$6,873.1680 \\ 
-Akaike Inf. Crit. & 13,741.0700 & 13,754.3400 \\ 
+\\[-1.8ex] & \multicolumn{2}{c}{union} \\ 
+\\[-1.8ex] & \textit{logistic} & \textit{probit} \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ age & $-$0.003 & $-$0.001 \\ 
+  & (0.003) & (0.002) \\ 
+  & & \\ 
+ ln\_wage & 1.253$^{***}$ & 0.734$^{***}$ \\ 
+  & (0.053) & (0.030) \\ 
+  & & \\ 
+ collgrad & $-$0.053 & $-$0.032 \\ 
+  & (0.055) & (0.033) \\ 
+  & & \\ 
+ hours & 0.022$^{***}$ & 0.013$^{***}$ \\ 
+  & (0.002) & (0.001) \\ 
+  & & \\ 
+ Constant & $-$4.167$^{***}$ & $-$2.468$^{***}$ \\ 
+  & (0.160) & (0.091) \\ 
+  & & \\ 
+\textit{N} & 13,452 & 13,452 \\ 
+Log Likelihood & $-$6,825.528 & $-$6,820.092 \\ 
+Akaike Inf. Crit. & 13,661.060 & 13,650.180 \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Notes:} & \multicolumn{2}{l}{$^{***}$Significant at the 1 percent level.} \\ 
- & \multicolumn{2}{l}{$^{**}$Significant at the 5 percent level.} \\ 
- & \multicolumn{2}{l}{$^{*}$Significant at the 10 percent level.} \\ 
- & \multicolumn{2}{l}{Standard errors in parentheses.} \\ 
+\textit{Notes:} & \multicolumn{2}{r}{$^{***}$Significant at the 1 percent level.} \\ 
+ & \multicolumn{2}{r}{$^{**}$Significant at the 5 percent level.} \\ 
+ & \multicolumn{2}{r}{$^{*}$Significant at the 10 percent level.} \\ 
 \end{tabular} 
 \end{table}
 
@@ -480,9 +538,10 @@ probit}\label{marginal-effects---probit}}
 
 \begin{verbatim}
 ##    factor     AME     SE       z      p   lower  upper
-##       age -0.0008 0.0006 -1.4596 0.1444 -0.0019 0.0003
-##  collgrad -0.0005 0.0093 -0.0523 0.9583 -0.0186 0.0177
-##   ln_wage  0.2114 0.0082 25.8419 0.0000  0.1954 0.2274
+##       age -0.0004 0.0006 -0.6497 0.5159 -0.0015 0.0007
+##  collgrad -0.0091 0.0093 -0.9845 0.3249 -0.0273 0.0090
+##     hours  0.0036 0.0004  9.6734 0.0000  0.0029 0.0044
+##   ln_wage  0.2089 0.0082 25.4688 0.0000  0.1928 0.2250
 \end{verbatim}
 
 \hypertarget{marginal-effects---logit}{%
@@ -491,84 +550,37 @@ logit}\label{marginal-effects---logit}}
 
 \begin{verbatim}
 ##    factor     AME     SE       z      p   lower  upper
-##       age -0.0009 0.0006 -1.6289 0.1033 -0.0020 0.0002
-##  collgrad -0.0004 0.0091 -0.0458 0.9635 -0.0182 0.0174
-##   ln_wage  0.2082 0.0082 25.2995 0.0000  0.1921 0.2244
+##       age -0.0005 0.0006 -0.9483 0.3430 -0.0016 0.0006
+##  collgrad -0.0088 0.0091 -0.9667 0.3337 -0.0266 0.0090
+##     hours  0.0037 0.0004  9.6196 0.0000  0.0030 0.0045
+##   ln_wage  0.2076 0.0083 25.1307 0.0000  0.1914 0.2238
 \end{verbatim}
 
-\hypertarget{summary-of-marginal-effects-for-probit-model-on-union-membership}{%
-\paragraph{5.2.4. Summary of Marginal Effects for Probit Model on Union
-Membership:}\label{summary-of-marginal-effects-for-probit-model-on-union-membership}}
+\hypertarget{summary-of-marginal-effects-for-logit-model-on-union-membership}{%
+\paragraph{5.2.4. Summary of Marginal Effects for Logit Model on Union
+Membership:}\label{summary-of-marginal-effects-for-logit-model-on-union-membership}}
 
 \begin{itemize}
 \item
   \textbf{Age:} A one-year increase in age is linked to a decrease in
-  the likelihood of a worker being unionized by 0.08 percentage points.
-  This effect, though statistically significant, is minimal, indicating
-  age may have only a slight influence on union membership.
+  the likelihood of a worker being unionized by 0.05 percentage points.
+  However, the effect is not statistically significant at the 5\% level
 \item
   \textbf{College Graduation (collgrad):} Being a college graduate
-  reduces the probability of being in a union by 0.05 percentage points.
-  The small magnitude of this effect suggests that in this context,
-  educational attainment (specifically having a college degree) has
-  limited influence on union membership.
+  reduces the probability of being in a union by 0.88 percentage points.
+  However, the effect is not statistically significant at the 5\% level
+\item
+  \textbf{Hours:} A one-unit increase in hours is associated with a 0.37
+  percentage point increase in the likelihood of a worker being
+  unionized.
 \item
   \textbf{Log of Wage (ln\_wage):} A one-unit increase in the logarithm
-  of wage is associated with a 21.14 percentage point increase in the
-  likelihood of a worker being unionized. This significant effect
-  underscores the importance of wage in a worker's decision to join a
-  union.
+  of wage is associated with a 20.76 percentage point increase in the
+  likelihood of a worker being unionized.
 \end{itemize}
 
-\hypertarget{machine-learning-linear-regression-vs.-random-forest}{%
-\section{6. Machine Learning: Linear Regression vs.~Random
-Forest}\label{machine-learning-linear-regression-vs.-random-forest}}
-
-In this section, we will train both a traditional linear regression
-model and a Random Forest model to predict \texttt{ln\_wage} and then
-compare their performance on a test dataset.
-
-\hypertarget{splitting-data-into-training-and-testing-sets}{%
-\subsection{6.1. Splitting Data into Training and Testing
-Sets}\label{splitting-data-into-training-and-testing-sets}}
-
-Before we train our models, we need to partition our dataset into a
-training set, used to train the models, and a test set, used to evaluate
-their performance.
-
-\hypertarget{training-and-evaluating-linear-regression}{%
-\subsection{6.2. Training and Evaluating Linear
-Regression}\label{training-and-evaluating-linear-regression}}
-
-\begin{verbatim}
-## [1] 0.3517657
-\end{verbatim}
-
-\hypertarget{training-and-evaluating-random-forest}{%
-\subsection{6.3. Training and Evaluating Random
-Forest}\label{training-and-evaluating-random-forest}}
-
-\begin{verbatim}
-## [1] 0.3137955
-\end{verbatim}
-
-\hypertarget{comparing-model-performances}{%
-\subsection{6.4. Comparing Model
-Performances}\label{comparing-model-performances}}
-
-With the results in hand, let's compare the performance of the two
-models. RMSE provides a measure of the magnitude of the prediction
-errors. Lower values of RMSE indicate a better fit of the model to the
-data.
-
-\begin{verbatim}
-##               Model      RMSE
-## 1 Linear Regression 0.3517657
-## 2     Random Forest 0.3137955
-\end{verbatim}
-
 \hypertarget{assessment}{%
-\section{7. Assessment}\label{assessment}}
+\section{6 Assessment}\label{assessment}}
 
 \hypertarget{problem-1-data-importing}{%
 \subsection{Problem 1: Data Importing}\label{problem-1-data-importing}}
@@ -588,7 +600,10 @@ data}\label{problem-2-drop-the-missing-data}}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#}\RegionMarkerTok{BEGIN}\CommentTok{ SOLUTION}
-\NormalTok{card\_no\_na}\OtherTok{\textless{}{-}}\FunctionTok{drop\_na}\NormalTok{(card)}
+
+\NormalTok{card\_no\_na }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(card)}
+
+
 \CommentTok{\#}\RegionMarkerTok{END}\CommentTok{ SOLUTION}
 \end{Highlighting}
 \end{Shaded}
@@ -597,8 +612,8 @@ data}\label{problem-2-drop-the-missing-data}}
 \subsection{Problem 3}\label{problem-3}}
 
 Estimate a linear regression model that uses the log of the salary as
-the dependent variable and IQ, married, age, and educ as independent
-variables.
+the dependent variable and IQ, married, age, educ, and the log of weight
+as independent variables.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -685,6 +700,19 @@ as in the linear regression mode.
 
 Discuss how the independent variables are positively/negatively related
 to the probability of the salary being above the average.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#}\RegionMarkerTok{BEGIN}\CommentTok{ SOLUTION}
+
+\CommentTok{\#}\RegionMarkerTok{END}\CommentTok{ SOLUTION}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{problem-10}{%
+\subsection{Problem 10:}\label{problem-10}}
+
+Compute the marginal effects of the logit model
 
 \begin{Shaded}
 \begin{Highlighting}[]

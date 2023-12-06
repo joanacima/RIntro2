@@ -27,12 +27,14 @@ library(Hmisc) #provides a collection of functions for data manipulation, statis
 library(naniar) #exploring and visualizing missing data in the dataset
 library(here)
 
+
+# Define working directory
 rm(list = ls())
 here()
 getwd()
 
-# Define working directory
-#setwd("C:\\Users\\Joana Cima\\Documents\\GitHub\\RIntro")
+
+
 
 ```
 
@@ -85,7 +87,7 @@ nlswork_no_na <- drop_na(nlswork)
 ```{r include=FALSE}
 #Select a subset of variables 
   db_ols<- nlswork_no_na %>% 
-  select(age, ln_wage, collgrad, union)
+ select(age, ln_wage, collgrad, union, hours)
 
 ```
 
@@ -101,6 +103,10 @@ nlswork_no_na <- drop_na(nlswork)
 ```{r include=FALSE}
 # Model 2
     ols2 <- lm(data = db_ols, ln_wage ~ .)
+
+#Alternative ols2<-lm(data = db_ols, ln_wage ~ age + collgrad + union+ hours)
+    
+
       summary(ols2)
 
 ```      
@@ -114,8 +120,13 @@ library(caret)
 importance <- varImp(ols2, scale = TRUE)
 print(importance)
 
-#stepwise.model <- step(ols2, direction = "both")
-#summary(stepwise.model)
+```
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+
+stepwise.model <- step(ols2, direction = "backward")
+
+summary(stepwise.model)
 ```
 
 ### 5.1.2. Our regression Table
@@ -169,9 +180,13 @@ Next, we will be testing specific hypotheses about the coefficients in our regre
 
 ```{r, echo=FALSE, message=FALSE,include=TRUE, warning=FALSE}
     
-      linearHypothesis(ols2,c("age=0"))
+      #linearHypothesis(ols2,c("age=0"))
 
       linearHypothesis(ols2, "union = collgrad")
+      
+      #test if union is equal to collgrad and if they are equal to zero
+      
+      #linearHypothesis(ols2, c("collgrad = 0", "union = 0"))
 ```
 
 ### 5.1.4. Additional quality measures: AIC & BIC
@@ -204,6 +219,16 @@ The Variance Inflation Factor (VIF) assesses the severity of multicollinearity i
 
 Homoscedasticity is a fundamental assumption underlying standard linear regression models, stipulating that the variance of the residuals remains constant across levels of the independent variables. This property ensures that the ordinary least squares (OLS) estimator remains the best linear unbiased estimator (BLUE), providing minimum variance. Violations of homoscedasticity, known as heteroscedasticity, can lead to inefficient and potentially biased coefficient estimates, as well as unreliable standard errors. To rigorously assess the presence of homoscedasticity, researchers often employ diagnostic tests, such as the Breusch-Pagan test.
 
+#### Graphical analysis
+
+```{r, echo=FALSE, message=FALSE,include=TRUE, warning=FALSE}
+      
+plot(ols2$fitted.values, resid(ols2))
+abline(h=0, col="red")
+
+```
+
+
 #### Breusch-Pagan test
 
 ```{r, echo=FALSE, message=FALSE,include=TRUE, warning=FALSE}
@@ -216,18 +241,30 @@ The results from the Breusch-Pagan test for the `ols2` model suggest the presenc
 
 ### 5.1.7. Robust estimation
 
-```{r Specification issues, echo=FALSE, warning=FALSE, results='asis'}
+
+```{r}
 
 robust_ols2 <- coeftest(ols2, vcov. = vcovHC(ols2, type="HC1"))
 print(robust_ols2)
-        
-        stargazer(robust_ols2,
-                  digits = 4,
-                  digits.extra = 1,
-                style = "qje",
-                type = "latex",
-                notes.align = "l",
-                out = "Regression_output.txt")
+```
+
+
+
+
+
+```{r Specification issues, echo=FALSE, warning=FALSE, results='asis'}
+
+stargazer(ols2, robust_ols2,
+          se = list(NULL, sqrt(diag(vcovHC(ols2, type = "HC1")))),
+          title = "Comparison of OLS and Robust Regression Models",
+          header = FALSE, 
+          model.names = FALSE,
+         # robust = TRUE,
+          column.labels = c("OLS", "Robust OLS"),
+          intercept.bottom = FALSE,
+       #   intercept.top = TRUE,
+          type = "latex",
+          style = "qje")
 
 ```
 
@@ -235,7 +272,7 @@ print(robust_ols2)
 ### 5.1.8. Coefficient interpretation with a full model (Model 2)
 
 
-Given that our dependent variable is the natural logarithm of the salary, the coefficients in this regression model represent percentage changes in the salary for a one-unit change in the independent variables.For every additional year in age, the salary is expected to increase by approximately `r (exp(0.00675636) - 1) * 100`%, holding all other factors constant. Being a college graduate is associated with an estimated increase of about `r (exp(0.38330049) - 1) * 100`% in the salary, compared to not being a college graduate. Being a member of a union is associated with an approximate `r (exp(0.21681639) - 1) * 100`% increase in salary, holding everything else constant. This effect is highly significant (p-value < 2e-16).
+Given that our dependent variable is the natural logarithm of the salary, the coefficients should be interpreted accordingly. For every additional year in age, the salary is expected to increase by approximately `r (exp(0.007) - 1) * 100`%, holding all other factors constant. Being a college graduate is associated with an estimated increase of about `r (exp(0.377) - 1) * 100`% in the salary, compared to not being a college graduate. Being a member of a union is associated with an approximate `r (exp(0.212) - 1) * 100`% increase in salary, holding everything else constant. All variables are significant at the 1% level.
 
 
 ## 5.2. Binary choice models
@@ -245,7 +282,6 @@ When the dependent variable is binary, ordinary least squares regression is not 
 ```{r echo=FALSE}
 # Probit
 probit <- glm(union ~ ., data = db_ols, family = binomial(link = "probit"))
-
 summary(probit)
 
 ```
@@ -259,29 +295,11 @@ summary(logit)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, results='asis'}
-#export results 3 models
-stargazer(probit,logit, 
-  model.names=FALSE,
-  model.numbers = FALSE, title = "Regression",
-  column.labels = c( " Probit", "Logit"),
-  label = "regressions",
-  table.placement = "!ht",
-  notes.append = TRUE,
-  notes.align="l",
-  notes="Standard errors in parentheses.",
-  header = FALSE,
-  no.space = TRUE,
-  #covariate.labels = c("Height","Weight","Age", "Female"),
-  omit = c("Constant"),
-  omit.stat = c("adj.rsq","f","ser"),
-  omit.yes.no = c("Constant",""),
-  digits = 4,
-  digits.extra = 4,
-  dep.var.caption="",
-  dep.var.labels.include = FALSE,
-  style = "qje",
-  type = "latex",
-  out = "Tabela_modelos_binarios.txt")
+#export results 2 models
+
+stargazer(logit, probit, type = "latex",
+          title = "Comparative Table of Logit and Probit Models",
+          style = "qje")
 ```
 
 ### 5.2.1. Marginal effects
@@ -304,80 +322,19 @@ m3 <- margins(logit)
 summary(m3)
 ```
 
-#### 5.2.4. Summary of Marginal Effects for Probit Model on Union Membership:
+#### 5.2.4. Summary of Marginal Effects for Logit Model on Union Membership:
 
-- **Age:** A one-year increase in age is linked to a decrease in the likelihood of a worker being unionized by 0.08 percentage points. This effect, though statistically significant, is minimal, indicating age may have only a slight influence on union membership.
+- **Age:** A one-year increase in age is linked to a decrease in the likelihood of a worker being unionized by 0.05 percentage points. However, the effect is not statistically significant at the 5% level
 
-- **College Graduation (collgrad):** Being a college graduate reduces the probability of being in a union by 0.05 percentage points. The small magnitude of this effect suggests that in this context, educational attainment (specifically having a college degree) has limited influence on union membership.
+- **College Graduation (collgrad):** Being a college graduate reduces the probability of being in a union by 0.88 percentage points. However, the effect is not statistically significant at the 5% level
 
-- **Log of Wage (ln_wage):** A one-unit increase in the logarithm of wage is associated with a 21.14 percentage point increase in the likelihood of a worker being unionized. This significant effect underscores the importance of wage in a worker's decision to join a union.
+- **Hours:** A one-unit increase in hours is associated with a 0.37 percentage point increase in the likelihood of a worker being unionized. 
+
+- **Log of Wage (ln_wage):** A one-unit increase in the logarithm of wage is associated with a 20.76 percentage point increase in the likelihood of a worker being unionized. 
 
 
-# 6. Machine Learning: Linear Regression vs. Random Forest
 
-In this section, we will train both a traditional linear regression model and a Random Forest model to predict `ln_wage` and then compare their performance on a test dataset.
-
-## 6.1. Splitting Data into Training and Testing Sets
-
-Before we train our models, we need to partition our dataset into a training set, used to train the models, and a test set, used to evaluate their performance.
-
-```{r echo=FALSE, include=TRUE}
-# Setting a seed for reproducibility
-set.seed(123)
-
-# Splitting data
-index <- createDataPartition(nlswork_no_na$ln_wage, p = 0.75, list = FALSE)
-train_set <- nlswork_no_na[index, ]
-test_set <- nlswork_no_na[-index, ]
-```
-
-## 6.2. Training and Evaluating Linear Regression
-
-```{r echo=FALSE, include=TRUE}
-# Training linear regression
-linear_model <- lm(ln_wage ~ ., data=train_set)
-
-# Making predictions on the test set
-linear_predictions <- predict(linear_model, newdata=test_set)
-
-# Evaluating the model
-linear_RMSE <- sqrt(mean((linear_predictions - test_set$ln_wage)^2))
-linear_RMSE
-```
-
-## 6.3. Training and Evaluating Random Forest
-
-```{r echo=FALSE, include=TRUE}
-# Setting a seed for reproducibility
-set.seed(123)
-
-# Training Random Forest
-rf_model <- randomForest(ln_wage ~ ., data=train_set)
-
-# Making predictions on the test set
-rf_predictions <- predict(rf_model, newdata=test_set)
-
-# Evaluating the model
-rf_RMSE <- sqrt(mean((rf_predictions - test_set$ln_wage)^2))
-rf_RMSE
-
-```
-
-## 6.4. Comparing Model Performances
-
-With the results in hand, let's compare the performance of the two models. RMSE provides a measure of the magnitude of the prediction errors. Lower values of RMSE indicate a better fit of the model to the data.
-
-```{r echo=FALSE, include=TRUE}
-# Creating a dataframe to compare results
-results <- data.frame(
-  Model = c("Linear Regression", "Random Forest"),
-  RMSE = c(linear_RMSE, rf_RMSE)
-)
-results
-
-```
-
-# 7. Assessment
+# 6 Assessment
 
 ## Problem 1: Data Importing
 Import the "card" dataset.
@@ -390,12 +347,15 @@ card<-as.data.frame(read_excel("card.xlsx"))
 
 ```{r,warning=FALSE}
 #BEGIN SOLUTION
-card_no_na<-drop_na(card)
+
+card_no_na <- na.omit(card)
+
+
 #END SOLUTION
 ```
 
 ## Problem 3
-Estimate a linear regression model that uses the log of the salary as the dependent variable and IQ, married, age, and educ as independent variables.
+Estimate a linear regression model that uses the log of the salary as the dependent variable and IQ, married, age, educ, and the log of weight as independent variables.
 
 ```{r,warning=FALSE}
 #BEGIN SOLUTION
@@ -466,7 +426,14 @@ Discuss how the independent variables are positively/negatively related to the p
 #END SOLUTION
 ```
 
+## Problem 10:
+Compute the marginal effects of the logit model
 
+```{r,warning=FALSE}
+#BEGIN SOLUTION
+
+#END SOLUTION
+```
 
 
 
