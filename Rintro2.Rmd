@@ -336,6 +336,8 @@ summary(m3)
 
 # 6 Assessment
 
+<!-- Please put the R solution between 'begin solution' and 'end solution', but analyze the results outside the chunks -->
+
 ## Problem 1: Data Importing
 Import the "card" dataset.
 
