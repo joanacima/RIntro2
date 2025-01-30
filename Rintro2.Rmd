@@ -333,6 +333,14 @@ summary(m3)
 - **Log of Wage (ln_wage):** A one-unit increase in the logarithm of wage is associated with a 20.76 percentage point increase in the likelihood of a worker being unionized. 
 
 
+```{r include=FALSE}
+#CONVERSÃO DO CÓDIGO RMARKDOWN PARA O CÓDIGO R
+
+#options(knitr.duplicate.label = "allow")
+
+#knitr::purl(input= "RIntro2.Rmd", output = "RIntro2.R")
+
+```
 
 # 6 Assessment
 
